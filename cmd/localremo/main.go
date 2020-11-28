@@ -59,7 +59,16 @@ func main() {
 				fmt.Fprintf(os.Stderr, "Failed to marshal: %v\n", err)
 				os.Exit(1)
 			}
-			fmt.Println(string(b))
+
+			new, err := os.Create(get)
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "Failed to create file: %v\n", err)
+				os.Exit(1)
+			}
+			if _, err := new.Write(b); err != nil {
+				fmt.Fprintf(os.Stderr, "Failed to write file: %v\n", err)
+				os.Exit(1)
+			}
 		}
 	} else if post != "" {
 		ir, err := localremo.ReadJSON(post)
